@@ -1,0 +1,370 @@
+.main{
+  position: relative;
+}
+
+.main-card{
+  margin: 100px 400px;
+  background-color: #fff;
+  box-shadow: 1px 0px 40px grey;
+  max-height: 55vh;
+  overflow: auto;
+  border-radius: 10px;
+}
+
+.scroll-container {
+  position: sticky;
+  top: 0%;
+  background-color: #fff;
+  z-index: 1;
+}
+
+.tabs{
+  display: flex;
+  padding: 1.5em 2em;
+  border-bottom: 1px solid rgb(218, 213, 224);
+  position: relative;
+}
+
+.tab{
+  position: relative;
+  margin-right: 3em;
+}
+
+.link{
+  font-weight: bold;
+  font-size: 1.2rem;
+  letter-spacing: 0.5px;
+  color: rgb(148, 147, 150);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.link:hover{
+  color: black;
+}
+
+.notification-badge{
+  position: absolute;
+  bottom: 0%;
+  left: 105%;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: rgb(240, 240, 240);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* cursor: none; */
+}
+
+.noti-count{
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: rgb(148, 147, 150);
+}
+
+.active-bar{
+  display: none;
+  width: 100%;
+  bottom: -110%;
+  position: absolute;
+  border-bottom: 2px solid rgb(100, 24, 162);
+}
+
+.add-icon{
+  position: absolute;
+  right: 2em;
+  cursor: pointer;
+}
+
+.main-display{
+  margin: 1.5em 2em 0;
+  border-bottom: 1px solid rgb(218, 213, 224);
+  display: flex;
+  position: relative;
+}
+
+.activity-display{
+  margin: 1.5em 0;
+}
+
+.completed-circle{
+  background-color: #fff;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1.3px solid rgb(218, 213, 224);
+  margin-right: 1em;
+  align-self: flex-start;
+  text-align: center;
+}
+
+.todoItem{
+  align-self: flex-start;
+  padding-bottom: 1em;
+  font-size: 1.1rem;
+}
+
+.todoItem p{
+  margin: 0
+}
+
+.activityItem{
+padding: 0.5em;
+}
+
+.activityItem li{
+  margin: 0 1em 1em;
+}
+
+.completion-time{
+  display: flex;
+}
+
+.todoItem .taskName{
+  font-weight: bold;
+  margin-bottom: 0.2em;
+}
+
+.todoItem .task-description{
+  font-size: 0.9rem;
+  word-spacing: 0.1em;
+  font-family: 'Roboto', 'sans-serif';
+  color: rgb(162, 156, 168);
+  margin-bottom: 0.5em;
+}
+
+.todoItem .due-date{
+  word-spacing: 0.1em;
+  color: red;
+  margin-right: 0.5em;
+  display: flex;
+}
+
+.todoItem .splitting-dot{
+  margin-right: 0.5em
+}
+
+.todoItem .assignee{
+  display: flex;
+}
+
+.todoItem .due-date span, .todoItem .assignee span{
+  margin-right: 0.5em;
+}
+
+.delete-icon{
+  position: absolute;
+  right: 0%;
+  cursor: pointer;
+}
+
+.empty-content{
+  margin: 1.5em 0;
+  padding: 0.5em;
+  font-size: 1.1rem;
+}
+
+.add-task-card {
+  display: none;
+  background-color: #fff;
+  box-shadow: 1px 0px 40px grey;
+  min-height: 30vh;
+  border-radius: 10px;
+  position: absolute;
+  top: 95%;
+  left: 25%;
+  width: 50%;
+  flex-direction: column;
+  padding: 2em;
+}
+
+::placeholder {
+  color: rgba(0, 0, 0, 0.215);
+}
+
+.task-name-input, .add-new-assignee{
+  margin-bottom: 1em;
+  outline: none;
+  border: none;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.description-input{
+  outline: none;
+  border: none;
+}
+.button-container{
+  position: absolute;
+  width: 91%;
+  bottom: 0%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.completion-time-buttons, .card-action-buttons {
+  display: flex;
+  margin-bottom: 1em;
+}
+
+.assignee-btn, .cancel-btn,
+.add-btn, .reset-assignee-btn, .confirm-assignee-btn, .ok-close-btn{
+  border: 1px solid rgba(0, 0, 0, 0.215);
+  border-radius: 10px;
+  font-size: 1rem;
+  text-align: center;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.3em 0.8em;
+  cursor: pointer;
+  color: rgb(106, 99, 113);
+  font-weight: bold;
+}
+
+.date-input{
+  border: none;
+  background: rgb(100, 24, 162);
+  color: white;
+  /* margin-left: 2em; */
+  width: 100%;
+  font-weight: bold;
+  outline: none;
+  cursor: pointer;
+}
+
+.date-btn{
+  background-color: rgb(100, 24, 162);
+  border: 1px solid rgba(0, 0, 0, 0.215);
+  border-radius: 10px;
+  font-size: 1rem;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-weight: bold;
+  color: white;
+  width: 100%;
+  margin: 0;
+  padding: 0.3em 0.8em;
+}
+
+.assignee-btn, .add-btn{
+  margin-left: 1em
+}
+
+.completion-time-buttons span{
+  margin-right: 0.5em
+}
+
+.add-btn{
+  background-color:rgb(100, 24, 162);
+  color: #fff;
+}
+
+.modal {
+  display: none;
+  /* Hidden by default */
+  position: fixed;
+  /* Stay in place */
+  z-index: 1;
+  /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%;
+  /* Full width */
+  height: 100%;
+  /* Full height */
+  overflow: auto;
+  /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0);
+  /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4);
+  /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 40%;
+  /* Could be more or less, depending on screen size */
+}
+
+.modal-header{
+  margin-top: 0.5em;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.modal-content ul{
+  margin: 1.5em 0;
+}
+
+.modal-content ul li{
+  cursor: pointer;
+  color: rgb(106, 99, 113);
+  margin-bottom: 0.5em;
+}
+
+.modal-content ul li:hover, .modal-content ul li:focus {
+  color: rgb(100, 24, 162);
+  font-size: 1.1rem;
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-footer{
+  display: flex;
+  justify-content: space-between;
+}
+
+.add-new-assignee {
+  margin-top: 0.5em;
+  outline: none;
+  border: none;
+  font-size: 1rem;
+  /* font-weight: bold; */
+}
+
+.modal-action-buttons{
+  position: absolute;
+  left: 56%;
+  display: flex;
+}
+
+.confirm-assignee-btn{
+  margin-left: 1em;
+  color: #fff;
+  background-color: rgb(100, 24, 162);
+}
+
+.error-modal-footer{
+  margin-top: 3em;
+  display: flex;
+  justify-content:right;
+}
+
+.error-modal-footer button{
+  background-color: rgb(100, 24, 162);
+  color: #fff;
+}
