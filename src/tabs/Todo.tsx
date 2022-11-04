@@ -1,13 +1,14 @@
-import { ActivityArray, getMonths, sendNewActivity, TodoState } from '../utils/utils'
+import { ActivityArray, getMonths, sendNewActivity, TodoItem, TodoState } from '../utils/utils'
 import { FiCalendar } from "react-icons/fi"
 import { BsPerson, BsDot, BsCheckLg, BsTrash } from "react-icons/bs"
-import { useEffect, useCallback } from 'react'
+import { useEffect, useCallback, useState } from 'react'
 import { useLocation } from 'react-router-dom'
+import { AuthServices } from '../services'
 
 interface IProps {
       todosObject: {
             todos: TodoState["type"],
-            setTodos: React.Dispatch<React.SetStateAction<TodoState["type"]>>
+            addTodo: (task: TodoItem["value"]) => void
       },
       setActivities: React.Dispatch<React.SetStateAction<ActivityArray["activities"]>>,
       setCurrentTab: React.Dispatch<React.SetStateAction<string>>
@@ -17,29 +18,31 @@ function Todo({ todosObject, setActivities, setCurrentTab }: IProps) {
 
       const location = useLocation()
 
-      const { todos, setTodos } = todosObject
+      const { todos, addTodo } = todosObject
+
+      const [currentUser, setCurrentUser] = useState<string>("Posi");
 
       const deleteTodo = (id: number) => {
-            setTodos(prev => prev.filter(each => each.id !== id))
+            // setTodos(prev => prev.filter(each => each.id !== id))
 
-            let deletedTodo = todos.filter(each => each.id === id)[0]
+            // let deletedTodo = todos.filter(each => each.id === id)[0]
 
-            let activity = sendNewActivity(3, null, deletedTodo.taskName)
-            setActivities(prev => [...prev, { activityString: activity, read: false }])
+            // let activity = sendNewActivity(3, null, deletedTodo.taskName)
+            // setActivities(prev => [...prev, { activityString: activity, read: false }])
       }
 
       const updateCompleteUncomplete = (id: number) => {
             let activity = ""
-            setTodos(prev =>
-                  prev.map(each => {
-                        if (each.id === id) {
-                              activity = sendNewActivity(each.completed === false ? 1 : 4, each.assignee, each.taskName)
-                              return { ...each, completed: !each.completed }
-                        }
-                        return each
-                  })
-            )
-            setActivities(prev => [...prev, { activityString: activity, read: false }])
+            // setTodos(prev =>
+            //       prev.map(each => {
+            //             if (each.id === id) {
+            //                   activity = sendNewActivity(each.completed === false ? 1 : 4, currentUser, each.taskName)
+            //                   return { ...each, completed: !each.completed }
+            //             }
+            //             return each
+            //       })
+            // )
+            // setActivities(prev => [...prev, { activityString: activity, read: false }])
       }
 
       const updateViewStatusForActivities = useCallback(() => {
@@ -62,6 +65,10 @@ function Todo({ todosObject, setActivities, setCurrentTab }: IProps) {
             setCurrentTab("todo")
       }, [setCurrentTab])
 
+      // useEffect(() => {
+      //       setCurrentUser(AuthServices.getCurrentUser().fullname);
+      // })
+
       return (
             <>
                   {todos.length > 0 ? todos.map((todo) => (
@@ -78,7 +85,7 @@ function Todo({ todosObject, setActivities, setCurrentTab }: IProps) {
                                                 <span>
                                                       <FiCalendar size={18} />
                                                 </span>
-                                                {`${todo.dueDate.getDate()} ${getMonths(todo.dueDate.getMonth())} ${todo.dueDate.getFullYear()}`}
+                                                {`${todo.dueDate}`}
                                           </p>
                                           <p className='splitting-dot'>
                                                 <BsDot color='rgb(162, 156, 168)' />

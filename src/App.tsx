@@ -6,27 +6,30 @@ import Todo from './tabs/Todo';
 import Layout from './components/Layout';
 import AddNewTodo from './components/AddNewTodo';
 import Activity from './tabs/Activity';
+import useFetchTasks from './hooks/useFetchTasks';
 
 function App() {
 
-  const [todos, setTodos] = useState<TodoState["type"]>([
-    {
-      id: 1,
-      taskName: "Complete main UI components",
-      description: "Would be good if we include every component",
-      dueDate: new Date("16 May 2022"),
-      assignee: "Esther Howard",
-      completed: true
-    },
+  // const [todos, setTodos] = useState<TodoState["type"]>([
+  //   {
+  //     id: 1,
+  //     taskName: "Complete main UI components",
+  //     description: "Would be good if we include every component",
+  //     dueDate: new Date("16 May 2022"),
+  //     assignee: ["Esther Howard"],
+  //     completed: true
+  //   },
 
-    {
-      id: 2,
-      taskName: "Landing Page Design",
-      dueDate: new Date("20 May 2022"),
-      assignee: "Brooklyn Simmons",
-      completed: false
-    }
-  ])
+  //   {
+  //     id: 2,
+  //     taskName: "Landing Page Design",
+  //     dueDate: new Date("20 May 2022"),
+  //     assignee: ["Brooklyn Simmons"],
+  //     completed: false
+  //   }
+  // ])
+
+  const [todos, addTodo] = useFetchTasks();
 
   const [activities, setActivities] = useState<ActivityArray["activities"]>([
     {
@@ -62,7 +65,7 @@ function App() {
               currentTab={currentTab} />}>
               <Route path="/activity" element={<Activity activitiesObject={{ activities, setActivities }} setCurrentTab={setCurrentTab} />} />
               <Route path="/todo" element={<Todo
-                todosObject={{ todos, setTodos }}
+                todosObject={{ todos, addTodo }}
                 setActivities={setActivities}
                 setCurrentTab={setCurrentTab} />} />
             </Route>
@@ -70,7 +73,7 @@ function App() {
         </div>
 
         <AddNewTodo
-          todosObject={{ todos, setTodos }}
+          todosObject={{ todos, addTodo }}
           newTodoCardOpen={{ isNewTodoCardOpen, setIsNewTodoCardOpen }}
           setActivities={setActivities} />
       </div>

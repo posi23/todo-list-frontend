@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { BsPerson } from 'react-icons/bs'
 import { FiCalendar } from 'react-icons/fi'
-import { ActivityArray, determineTheNextId, getErrorMessage, sendNewActivity, TodoState } from '../utils/utils'
+import { ActivityArray, determineTheNextId, getErrorMessage, sendNewActivity, TodoItem, TodoState } from '../utils/utils'
 import ErrorModal from './ErrorModal'
 import Modal from './Modal'
 import DatePicker from 'react-datepicker'
@@ -10,7 +10,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 interface IProps {
       todosObject: {
             todos: TodoState["type"],
-            setTodos: React.Dispatch<React.SetStateAction<TodoState["type"]>>
+            addTodo: (task: TodoItem["value"]) => void
       }
       newTodoCardOpen: {
             isNewTodoCardOpen: boolean,
@@ -21,13 +21,13 @@ interface IProps {
 
 function AddNewTodo({ todosObject, newTodoCardOpen, setActivities }: IProps) {
 
-      const { todos, setTodos } = todosObject
+      const { todos, addTodo } = todosObject
       const { isNewTodoCardOpen, setIsNewTodoCardOpen } = newTodoCardOpen
 
       const [taskName, setTaskName] = useState<string>("")
       const [description, setDescription] = useState<string>("")
       const [dueDate, setDueDate] = useState<Date>(new Date())
-      const [assignee, setAssignee] = useState<string>("")
+      const [assignee, setAssignee] = useState<string[]>([])
       const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
       const [error, setError] = useState<string>("")
 
@@ -55,11 +55,13 @@ function AddNewTodo({ todosObject, newTodoCardOpen, setActivities }: IProps) {
                         description,
                         dueDate,
                         assignee,
-                        completed: false
+                        completed: false,
+                        createdAt: null,
+                        updatedAt: null,
                   }
 
                   if (newTodo) {
-                        setTodos(prev => [...prev, newTodo])
+                        addTodo(newTodo)
                         let activity = sendNewActivity(2, null, newTodo.taskName)
                         setActivities(prev => [...prev, { activityString: activity, read: false }])
                   }
@@ -74,11 +76,11 @@ function AddNewTodo({ todosObject, newTodoCardOpen, setActivities }: IProps) {
             setTaskName("")
             setDescription("")
             setDueDate(new Date())
-            setAssignee("")
+            setAssignee([])
       }
 
       const validateFields = () => {
-            if (taskName === "" || assignee === "") throw new Error("'Task name' or 'Assign To' field needs to filled")
+            if (taskName === "" || assignee[0] === null) throw new Error("'Task name' or 'Assign To' field needs to filled")
       }
 
       useEffect(() => {
@@ -112,7 +114,9 @@ function AddNewTodo({ todosObject, newTodoCardOpen, setActivities }: IProps) {
 
                               <button className='assignee-btn' onClick={() => setIsModalOpen(true)}>
                                     <span><BsPerson size={20} /></span>
-                                    {assignee !== "" ? assignee : "Assign To"}
+                                    {assignee[0] === null && "Assign To"}
+                                    {assignee.length == 1 && assignee[0]}
+                                    {assignee.length > 1 && `${assignee[0]} +  ${assignee.length - 1}`}
                               </button>
                         </div>
 

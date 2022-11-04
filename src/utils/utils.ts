@@ -5,8 +5,10 @@ export interface TodoItem {
             taskName: string,
             description?: string,
             dueDate: Date,
-            assignee: string,
-            completed: boolean
+            assignee: string[],
+            completed: boolean,
+            updatedAt: string | null,
+            createdAt: string | null,
       }
 }
 
