@@ -1,6 +1,6 @@
 import axios, { AxiosError } from "axios";
 
-const API_URL = process.env.API_URL || "http://localhost:8080/";
+const API_URL = process.env.API_URL;
 
 const login = async (username: string, password: string) => {
     const response = await axios.post(`${API_URL}login`, {
