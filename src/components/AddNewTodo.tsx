@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { BsPerson } from 'react-icons/bs'
 import { FiCalendar } from 'react-icons/fi'
-import { ActivityItem, determineTheNextId, getErrorMessage, sendNewActivity, TodoItem } from '../utils/utils'
+import { ActivityItem, getErrorMessage, sendNewActivity, TodoItem } from '../utils/utils'
 import ErrorModal from './ErrorModal'
 import Modal from './Modal'
 import DatePicker from 'react-datepicker'
@@ -124,7 +124,7 @@ function AddNewTodo({ todosObject, newTodoCardOpen, setActivities }: IProps) {
                               <button className='assignee-btn' onClick={() => setIsModalOpen(true)}>
                                     <span><BsPerson size={20} /></span>
                                     {assignees[0] === undefined && "Assign To"}
-                                    {assignees.length == 1 && assignees[0].fullname}
+                                    {assignees.length === 1 && assignees[0].fullname}
                                     {assignees.length > 1 && `${assignees[0].fullname} +  ${assignees.length - 1}`}
                               </button>
                         </div>

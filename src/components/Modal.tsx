@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import useFetchAllUsers, { UserType } from '../hooks/useFetchAllUsers'
 
 interface IProps {
@@ -34,7 +34,7 @@ function Modal({ isModalOpen, setIsModalOpen, assignees, setAssignees }: IProps)
                   }
             })
 
-            if (addOrRemove == 1) {
+            if (addOrRemove === 1) {
                   setAssignees(prev => prev.filter(each => each.uid !== uid))
             }
             else {
