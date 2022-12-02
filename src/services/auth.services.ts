@@ -1,6 +1,6 @@
 import axios, { AxiosError } from "axios";
 
-const API_URL = process.env.API_URL || 'https://posi-todo-backend.herokuapp.com/';
+const API_URL = process.env.NODE_ENV === "development" ? "http://localhost:8080/" : 'https://posi-todo-backend.herokuapp.com/';
 
 const login = async (username: string, password: string) => {
     try {
