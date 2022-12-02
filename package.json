@@ -1,7 +1,6 @@
 {
   "name": "frontend",
   "version": "0.1.0",
-  "homepage": "https://posi-todo.herokuapp.com/todo",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
@@ -28,7 +27,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "client": "npm i && npm run start",
-    "app": "concurrently 'cd ../todo-list-backend && npm run server' 'npm run client'"
+    "app": "concurrently 'cd ../todo-list-backend && npm run server' 'npm run client'",
+    "startHeroku": "node index"
   },
   "eslintConfig": {
     "extends": [
