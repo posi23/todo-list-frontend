@@ -90,13 +90,15 @@
 
 .completed-circle{
   background-color: #fff;
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   border: 1.3px solid rgb(218, 213, 224);
   margin-right: 1em;
   align-self: flex-start;
   text-align: center;
+  display: flex;
+  justify-content: center;
 }
 
 .todoItem{
@@ -314,6 +316,11 @@ padding: 0.5em;
 }
 
 .modal-content ul li:hover, .modal-content ul li:focus {
+  color: rgb(100, 24, 162);
+  font-size: 1.1rem;
+}
+
+.modal-content ul li.selected {
   color: rgb(100, 24, 162);
   font-size: 1.1rem;
 }

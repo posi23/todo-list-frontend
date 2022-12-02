@@ -1,25 +1,53 @@
 import React, { useState, useEffect } from 'react';
-import { TodoItem, TodoState } from '../utils/utils';
-import axios from "axios";
+import { TodoItem } from '../utils/utils';
+import axios, { AxiosError } from "axios";
 import authServices from '../services/auth.services';
 
-const useFetchTasks = () => {
-    const [tasks, setTasks] = useState<TodoState["type"]>([]);
+export type newTodoType = {
+    taskName: string,
+    description: string,
+    dueDate: Date,
+    assignees: number[]
+}
 
-    const addTask = (task: TodoItem["value"]) => {
-        setTasks(prev => [...prev, task]);
+const useFetchTasks = () => {
+    const [tasks, setTasks] = useState<TodoItem[]>([]);
+
+    const addTask = async (task: newTodoType) => {
+        try {
+            const response = await axios.post(`${authServices.API_URL}task/create`, task);
+            const newTask: TodoItem = response.data;
+            setTasks(prev => [...prev, newTask]);
+        } catch (error: any | AxiosError) {
+            if (axios.isAxiosError(error)) {
+                console.log(error.message, error.status);
+            }
+            else {
+                console.log(error);
+            }
+        }
+
     }
 
     useEffect(() => {
         const getTasks = async () => {
-            const response = await axios.get(`${authServices.API_URL}task/all`);
-            const allTasks: TodoState["type"] = response.data;
-            setTasks(allTasks);
+            try {
+                const response = await axios.get(`${authServices.API_URL}task/all`);
+                const allTasks: TodoItem[] = response.data;
+                setTasks(allTasks);
+            } catch (error: any | AxiosError) {
+                if (axios.isAxiosError(error)) {
+                    console.log(error.message, error.status);
+                }
+                else {
+                    console.log(error);
+                }
+            }
         }
         getTasks();
     }, []);
 
-    return [tasks, addTask] as const;
+    return [tasks, setTasks, addTask] as const;
 };
 
 export default useFetchTasks;

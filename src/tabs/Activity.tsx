@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import { ActivityArray } from '../utils/utils'
+import { ActivityItem } from '../utils/utils'
 
 interface IProps {
       activitiesObject: {
-            activities: ActivityArray["activities"],
-            setActivities: React.Dispatch<React.SetStateAction<ActivityArray["activities"]>>
+            activities: ActivityItem[],
+            setActivities: React.Dispatch<React.SetStateAction<ActivityItem[]>>
       },
       setCurrentTab: React.Dispatch<React.SetStateAction<string>>
 }

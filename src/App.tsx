@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import { ActivityArray, getAmountOfUncompletedTodos, getAmountOfUnreadActivities, TodoState } from './utils/utils';
+import { ActivityItem, getAmountOfUncompletedTodos, getAmountOfUnreadActivities } from './utils/utils';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Todo from './tabs/Todo';
 import Layout from './components/Layout';
@@ -29,9 +29,9 @@ function App() {
   //   }
   // ])
 
-  const [todos, addTodo] = useFetchTasks();
+  const [todos, setTodos, addTodo] = useFetchTasks();
 
-  const [activities, setActivities] = useState<ActivityArray["activities"]>([
+  const [activities, setActivities] = useState<ActivityItem[]>([
     {
       activityString: 'Esther Howard has set task "Complete main UI components" to complete',
       read: false
@@ -65,7 +65,7 @@ function App() {
               currentTab={currentTab} />}>
               <Route path="/activity" element={<Activity activitiesObject={{ activities, setActivities }} setCurrentTab={setCurrentTab} />} />
               <Route path="/todo" element={<Todo
-                todosObject={{ todos, addTodo }}
+                todosObject={{ todos, setTodos }}
                 setActivities={setActivities}
                 setCurrentTab={setCurrentTab} />} />
             </Route>
