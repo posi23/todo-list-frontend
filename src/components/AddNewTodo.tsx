@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { BsPerson } from 'react-icons/bs'
 import { FiCalendar } from 'react-icons/fi'
-import { ActivityItem, getErrorMessage, sendNewActivity, TodoItem } from '../utils/utils'
+import { getErrorMessage, sendNewActivity, TodoItem } from '../utils/utils'
 import ErrorModal from './ErrorModal'
 import Modal from './Modal'
 import DatePicker from 'react-datepicker'
@@ -9,6 +9,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 import { AuthServices } from '../services'
 import { newTodoType } from '../hooks/useFetchTasks'
 import { UserType } from '../hooks/useFetchAllUsers'
+import { ActivityType } from '../hooks/useFetchActivities'
 
 interface IProps {
       todosObject: {
@@ -19,7 +20,7 @@ interface IProps {
             isNewTodoCardOpen: boolean,
             setIsNewTodoCardOpen: React.Dispatch<React.SetStateAction<boolean>>
       },
-      setActivities: React.Dispatch<React.SetStateAction<ActivityItem[]>>
+      setActivities: React.Dispatch<React.SetStateAction<ActivityType[]>>
 }
 
 function AddNewTodo({ todosObject, newTodoCardOpen, setActivities }: IProps) {
@@ -49,7 +50,7 @@ function AddNewTodo({ todosObject, newTodoCardOpen, setActivities }: IProps) {
             );
       };
 
-      const addNewTodoToTheList = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      const addNewTodoToTheList = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
             event.preventDefault()
 
             const assigneeIds: number[] = assignees.map(each => {
@@ -71,8 +72,8 @@ function AddNewTodo({ todosObject, newTodoCardOpen, setActivities }: IProps) {
 
                   if (newTodo) {
                         addTodo(newTodo)
-                        let activity = sendNewActivity(2, user, newTodo.taskName)
-                        setActivities(prev => [...prev, { activityString: activity, read: false }])
+                        let activity = await sendNewActivity(2, user, newTodo.taskName)
+                        setActivities(prev => [...prev, { activity: activity, read: false }])
                   }
                   clearStateToInitialState()
             }

@@ -1,42 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import { ActivityItem, getAmountOfUncompletedTodos, getAmountOfUnreadActivities } from './utils/utils';
+import { getAmountOfUncompletedTodos, getAmountOfUnreadActivities } from './utils/utils';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Todo from './tabs/Todo';
 import Layout from './components/Layout';
 import AddNewTodo from './components/AddNewTodo';
 import Activity from './tabs/Activity';
 import useFetchTasks from './hooks/useFetchTasks';
+import useFetchActivities from './hooks/useFetchActivities';
 
 function App() {
 
-  // const [todos, setTodos] = useState<TodoState["type"]>([
-  //   {
-  //     id: 1,
-  //     taskName: "Complete main UI components",
-  //     description: "Would be good if we include every component",
-  //     dueDate: new Date("16 May 2022"),
-  //     assignee: ["Esther Howard"],
-  //     completed: true
-  //   },
-
-  //   {
-  //     id: 2,
-  //     taskName: "Landing Page Design",
-  //     dueDate: new Date("20 May 2022"),
-  //     assignee: ["Brooklyn Simmons"],
-  //     completed: false
-  //   }
-  // ])
-
   const [todos, setTodos, addTodo] = useFetchTasks();
 
-  const [activities, setActivities] = useState<ActivityItem[]>([
-    {
-      activityString: 'Esther Howard has set task "Complete main UI components" to complete',
-      read: false
-    }
-  ])
+  const [activities, setActivities] = useFetchActivities();
 
   const [isNewTodoCardOpen, setIsNewTodoCardOpen] = useState<boolean>(false)
   const [activityNotification, setActivityNotification] = useState<number>(1)

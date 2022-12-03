@@ -121,11 +121,16 @@ padding: 0.5em;
 
 .completion-time{
   display: flex;
+  gap: 10px;
 }
 
 .todoItem .taskName{
   font-weight: bold;
   margin-bottom: 0.2em;
+}
+
+.todoItem .title{
+  margin-bottom: 20px;
 }
 
 .todoItem .task-description{
@@ -141,18 +146,28 @@ padding: 0.5em;
   color: red;
   margin-right: 0.5em;
   display: flex;
+  align-self: center;
 }
 
 .todoItem .splitting-dot{
-  margin-right: 0.5em
+  align-self: center;
+}
+
+.todoItem .assignee, .assignee div{
+  display: flex;
 }
 
 .todoItem .assignee{
-  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .todoItem .due-date span, .todoItem .assignee span{
   margin-right: 0.5em;
+}
+
+.assignee div {
+  display: flex;
 }
 
 .delete-icon{
@@ -354,9 +369,9 @@ padding: 0.5em;
 }
 
 .modal-action-buttons{
-  position: absolute;
-  left: 56%;
   display: flex;
+  justify-content: flex-end;
+  width: 100%;
 }
 
 .confirm-assignee-btn{
@@ -374,4 +389,23 @@ padding: 0.5em;
 .error-modal-footer button{
   background-color: rgb(100, 24, 162);
   color: #fff;
+}
+
+
+
+@media only screen and (400px <= width <= 1000px) {
+  .main-card {
+    margin: 100px 0 0;
+    max-height: 80vh;
+  }
+
+  .add-task-card{
+    width: 100%;
+    top: 70%;
+    left: 0%;
+  }
+
+  .modal-content{
+    width: 70%;
+  }
 }

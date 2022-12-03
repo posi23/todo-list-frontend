@@ -1,10 +1,10 @@
-import { ActivityItem, deleteTask, getMonths, sendNewActivity, TodoItem, } from '../utils/utils'
+import { deleteTask, editTask, formattedDateString, getMonths, readAllActivities, sendNewActivity, TodoItem, } from '../utils/utils'
 import { FiCalendar } from "react-icons/fi"
 import { BsPerson, BsDot, BsCheckLg, BsTrash } from "react-icons/bs"
 import { useEffect, useCallback, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { AuthServices } from '../services'
-import { useAxios } from '../hooks/useAxios'
+import useFetchAllUsers from '../hooks/useFetchAllUsers'
+import { ActivityType } from '../hooks/useFetchActivities'
 
 type IProps = {
       todosObject: {
@@ -12,11 +12,9 @@ type IProps = {
             setTodos: React.Dispatch<React.SetStateAction<TodoItem[]>>
             // addTodo: (task: TodoItem) => void,
       },
-      setActivities: React.Dispatch<React.SetStateAction<ActivityItem[]>>,
+      setActivities: React.Dispatch<React.SetStateAction<ActivityType[]>>,
       setCurrentTab: React.Dispatch<React.SetStateAction<string>>
 }
-
-const options: Intl.DateTimeFormatOptions = { weekday: undefined, year: 'numeric', month: 'long', day: 'numeric' };
 
 function Todo({ todosObject, setActivities, setCurrentTab }: IProps) {
 
@@ -26,31 +24,42 @@ function Todo({ todosObject, setActivities, setCurrentTab }: IProps) {
 
       const [currentUser, setCurrentUser] = useState<string>("Posi");
 
-      const deleteTodo = (id: number) => {
+      const [allUsers, setAllUsers] = useFetchAllUsers();
+
+      const deleteTodo = async (id: number) => {
             let deletedTodo = todos.filter(each => each.id === id)[0]
             setTodos(prev => prev.filter(each => each.id !== id))
-            const response = deleteTask(id);
+            const response = await deleteTask(id);
             console.log(response);
 
-            let activity = sendNewActivity(3, currentUser, deletedTodo.taskName)
-            setActivities(prev => [...prev, { activityString: activity, read: false }])
+            let activity = await sendNewActivity(3, currentUser, deletedTodo.taskName)
+            setActivities(prev => [...prev, { activity: activity, read: false }])
       }
 
-      const updateCompleteUncomplete = (id: number) => {
-            let activity = ""
-            setTodos(prev =>
-                  prev.map(each => {
-                        if (each.id === id) {
-                              activity = sendNewActivity(each.completed === false ? 1 : 4, currentUser, each.taskName)
-                              return { ...each, completed: !each.completed }
-                        }
-                        return each
-                  })
-            )
-            setActivities(prev => [...prev, { activityString: activity, read: false }])
+      const updateCompleteUncomplete = async (id: number) => {
+            let activityType: number = 0;
+            let task: TodoItem = todos.filter(each => each.id === id)[0];
+            let updatedTask = { ...task, completed: !task.completed };
+            await editTask(updatedTask);
+
+            const temp = [...todos]
+            const updatedTodos = temp.map(each => {
+                  if (each.id === id) {
+                        activityType = each.completed === false ? 1 : 4;
+                        // activity = await sendNewActivity(each.completed === false ? 1 : 4, currentUser, each.taskName)
+                        return { ...each, completed: !each.completed }
+                  }
+                  return each
+            })
+
+            setTodos(updatedTodos);
+
+            let activity = await sendNewActivity(activityType, currentUser, task.taskName)
+
+            setActivities(prev => [...prev, { activity: activity, read: false }])
       }
 
-      const updateViewStatusForActivities = useCallback(() => {
+      const updateViewStatusForActivities = useCallback(async () => {
             setActivities(prev =>
                   prev.map(activity => {
                         if (activity.read) return activity
@@ -58,7 +67,10 @@ function Todo({ todosObject, setActivities, setCurrentTab }: IProps) {
                         return updatedActivity
                   })
             )
+            await readAllActivities();
       }, [setActivities])
+
+
 
       useEffect(() => {
             let state = location.state as any
@@ -83,33 +95,40 @@ function Todo({ todosObject, setActivities, setCurrentTab }: IProps) {
                               </div>
 
                               <div className='todoItem'>
-                                    <p className='taskName'>{todo.taskName}</p>
-                                    <p className='task-description'>{todo.description}</p>
+                                    <div className='title'>
+                                          <p className='taskName'>{todo.taskName}</p>
+                                          <p className='task-description'>{todo.description}</p>
+                                    </div>
+
                                     <div className='completion-time'>
+
+                                          <div className='assignee'>
+                                                {allUsers.map(user => (
+                                                      todo.assignees !== undefined ? (todo.assignees.includes(user.uid) &&
+                                                            <div className='each-assignee'>
+                                                                  <span>
+                                                                        <BsPerson size={18} />
+                                                                  </span>
+                                                                  <p key={user.uid}>
+                                                                        {user.fullname}
+                                                                  </p>
+                                                            </div>) : ""
+                                                ))}
+                                          </div>
+
+                                          <p className='splitting-dot'>
+                                                <BsDot color='rgb(162, 156, 168)' size={30} />
+                                          </p>
+
                                           <p className='due-date'>
                                                 <span>
                                                       <FiCalendar size={18} />
                                                 </span>
-                                                {`${todo.dueDate.toLocaleString("en-CA", options)}`}
+                                                {formattedDateString(todo.dueDate, { time: false })}
                                           </p>
-                                          <p className='splitting-dot'>
-                                                <BsDot color='rgb(162, 156, 168)' />
-                                          </p>
-                                          <div className='assignee'>
-                                                {todo.assignee && todo.assignee.map((each, idx) => (
-                                                      <>
-                                                            <p key={idx}>
-                                                                  {each}
-                                                            </p>
-                                                            <span>
-                                                                  <BsPerson size={18} />
-                                                            </span>
-                                                      </>
 
-                                                ))}
-                                          </div>
                                     </div>
-                                    <p className='completed'>{todo.completed}</p>
+                                    {/* <p className='completed'>{todo.completed}</p> */}
 
                               </div>
 

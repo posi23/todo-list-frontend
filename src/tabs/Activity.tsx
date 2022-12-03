@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import { ActivityItem } from '../utils/utils'
+import { ActivityType } from '../hooks/useFetchActivities'
+import { readAllActivities } from '../utils/utils'
 
 interface IProps {
       activitiesObject: {
-            activities: ActivityItem[],
-            setActivities: React.Dispatch<React.SetStateAction<ActivityItem[]>>
+            activities: ActivityType[],
+            setActivities: React.Dispatch<React.SetStateAction<ActivityType[]>>
       },
       setCurrentTab: React.Dispatch<React.SetStateAction<string>>
 }
@@ -16,7 +17,7 @@ function Activity({ activitiesObject, setCurrentTab }: IProps) {
 
       const { activities, setActivities } = activitiesObject
 
-      const updateViewStatusForActivities = useCallback(() => {
+      const updateViewStatusForActivities = useCallback(async () => {
             setActivities(prev =>
                   prev.map(activity => {
                         if (activity.read) return activity
@@ -24,6 +25,7 @@ function Activity({ activitiesObject, setCurrentTab }: IProps) {
                         return updatedActivity
                   })
             )
+            await readAllActivities();
       }, [setActivities])
 
 
@@ -42,7 +44,7 @@ function Activity({ activitiesObject, setCurrentTab }: IProps) {
                   <ul className="activityItem">
                         {
                               activities.length > 0 ? activities.map((activity, idx) => (
-                                    <li key={idx} style={{ fontWeight: !activity.read ? "bold" : "normal" }}>{activity.activityString}</li>
+                                    <li key={idx} style={{ fontWeight: !activity.read ? "bold" : "normal" }}>{activity.activity}</li>
                               ))
                                     : <div style={{ fontSize: '1.1rem' }}>No recent activity</div>
                         }
