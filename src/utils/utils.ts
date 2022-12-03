@@ -49,7 +49,7 @@ export const sendNewActivity = async (activityType: number, nameOfActivator: str
                         newActivity += `${nameOfActivator} has set task "${objectOfActivity}" to complete`
                         break
                   case 2:
-                        newActivity += `A new task has been added: ${objectOfActivity}, by ${nameOfActivator}`
+                        newActivity += `A new task "${objectOfActivity}" has been added by ${nameOfActivator}`
                         break
                   case 3:
                         newActivity += `${nameOfActivator} has deleted task "${objectOfActivity}"`
