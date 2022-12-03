@@ -35,7 +35,7 @@ function AddNewTodo({ todosObject, newTodoCardOpen, setActivities }: IProps) {
       const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
       const [error, setError] = useState<string>("")
 
-      const [user, setUser] = useState(AuthServices.getCurrentUser());
+      const [user, setUser] = useState("Posi"); // temporary value until log in functionality is implemented
 
       const newTodoCardRef = useRef<HTMLDivElement | null>(null)
 
@@ -60,14 +60,10 @@ function AddNewTodo({ todosObject, newTodoCardOpen, setActivities }: IProps) {
             try {
                   validateFields()
                   const newTodo: newTodoType = {
-                        // id: determineTheNextId(todos),
                         taskName,
                         description,
                         dueDate,
                         assignees: assigneeIds,
-                        // completed: false,
-                        // createdAt: null,
-                        // updatedAt: null,
                   }
 
                   if (newTodo) {

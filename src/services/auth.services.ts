@@ -2,6 +2,14 @@ import axios, { AxiosError } from "axios";
 
 const API_URL = process.env.NODE_ENV === "development" ? "http://localhost:8080/" : 'https://posi-todo-backend.herokuapp.com/';
 
+const getCurrentUser = () => {
+    const userStr = localStorage.getItem("user");
+    if (userStr) return JSON.parse(userStr);
+    return null;
+}
+
+// from here down is not currently used by the app. Server functionality yet to be implemented
+
 const login = async (username: string, password: string) => {
     try {
         const response = await axios.post(`${API_URL}login`, {
@@ -43,11 +51,7 @@ const register = async (username: string, email: string, password: string) => {
     }
 }
 
-const getCurrentUser = () => {
-    const userStr = localStorage.getItem("user");
-    if (userStr) return JSON.parse(userStr);
-    return null;
-}
+
 
 export default {
     API_URL,
